@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies 
 
 
 var users = [{id:1,firstName:"John1", lastName:"Doe", age:46},
