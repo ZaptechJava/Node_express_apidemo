@@ -16,7 +16,6 @@ app.get('/', (req, res) => res.send('welcome to express api sample'));
 
 // GET request will get all the user data
 app.get('/api/users',function(req,res){
-	res.setHeader("Content-Type", "application/json");
 	res.json(users); 	
 });
 
@@ -28,8 +27,7 @@ app.post('/api/adduser', function(req, res) {
 	var id = users.length + 1;
 	var user = {id:id,firstName:req.body.firstName, lastName:req.body.lastName, age:req.body.age};
 	users.push(user);
-	res.setHeader("Content-Type", "application/json");
-    res.json(users); 
+    res.json({code:1,status:'success',message:"User Added"}); 
 });
 // DELETE http://localhost:3000/api/deleteuser/1
 //url parameter
@@ -41,20 +39,14 @@ app.delete('/api/deleteuser/:id', function(req, res) {
 			user_found = true;
 			users.splice(i,1);
 			console.log("user found and deleted");
-			userDeleted();
+			res.json({code:1,status:'success',message:"User Deleted"});
 			return;
 		}
+		console.log("after if");
 
 		if( i == 0 & user_found != true){
-			res.setHeader("Content-Type", "application/json");
-			res.json({code:1,message:"User not found"});		
+			res.json({code:0,status:'fail',message:"User not found"});		
 		}
-	}
-	
-
-	function userDeleted(){
-		res.setHeader("Content-Type", "application/json");
-    	res.json(users);
 	}
 });
 
@@ -66,20 +58,14 @@ app.patch('/api/updateuser',function(req,res){
 		if(users[i].id == req.body.id){
 			user_found = true;
 			users[i] = {id:req.body.id,firstName:req.body.firstName, lastName:req.body.lastName, age:req.body.age};
-			userUpdated();
+			res.json({code:1,status:'success',message:"User updated"});
 			return;
 		}
 
 		if( i == 0 & user_found != true){
-			res.setHeader("Content-Type", "application/json");
-			res.json({code:1,message:"User not found"});		
+			res.json({code:0,status:'fail',message:"User not found"});		
 		}
 
-	}
-
-	function userUpdated(){
-		res.setHeader("Content-Type", "application/json");
-    	res.json(users);
 	}
 
 });
